@@ -1,0 +1,12 @@
+
+	 * * * * * * * * 
+ 	*		 * PLAYER: 
+	*	 o	 * NOME: bea
+	*	/l>	 * IDADE: 12
+	*	/ |	 * PROFISSÃO: 
+	*		 * LOCAL DE NASC.: ifam
+	*		 * LOCAL DE RESIDÊNCIA: ifam
+	 * * * * * * * * 
+
+	PERSONALIDADE: 
+	 - doido
