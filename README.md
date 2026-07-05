@@ -12,6 +12,14 @@
 > ###### Projeto refatorado por baraunab
 <hr>
 
+### Como compilar ⚙️
+- Linux - GCC 14.2.0
+``` bash
+$ git clone https://github.com/baraunab/Creative-Test.git
+$ gcc -o main creative-test-refactored.c
+$ ./main
+```
+
 ### Ficha de Personagem 🕴️
 Como projeto da matéria introdutória à programação, o **Creative Test** trabalha com **arquivos em C** e proporciona uma ficha personalizada com informações do personagem do jogador
 
