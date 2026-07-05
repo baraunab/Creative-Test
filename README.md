@@ -20,3 +20,7 @@ Como projeto da matéria introdutória à programação, o **Creative Test** tra
 <img width="761" height="434" alt="image" src="https://github.com/user-attachments/assets/31dc4ab8-14b0-4952-85b6-99624c6399b5" />
 
 </div>
+
+## Desenvolvimento
+- Linguagem: C
+- Programado em: Windows 11 (originalmente) e Debian 13
