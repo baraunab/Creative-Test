@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <locale.h>
+#include <unistd.h>
 
 // variaveis globais
 #define MAX 256
@@ -17,67 +18,87 @@ typedef struct {
 } Dados;
 
 // prototipacao de funções
-void menu();
-void criar_ficha();
+void menu(); // menu de escolhas
+int int_input(); // recebe input de int por meio de fgets e converte com atoi
+void criar_ficha(); // cria arquivo de ficha do personagem
+void ler_ficha(); // le o arquivo de ficha e mostra no terminal
 
 // funções
+
+// menu de opcao
 void menu() {
-    int opcao = 1;
+   
+    system("clear");
+    int opcao;
     /* * * * * * * * * * * * * * * *
      *  TITULO E VERSÃO DO PROJETO *
      * * * * * * * * * * * * * * * */
-    printf("\n\t\tCREATIVE TEST V 1.1.2");
+    printf("\n\t\tCREATIVE TEST V 1.2.0");
     printf("\n\t1 - CRIAR FICHA");
     printf("\n\t2 - EXIBIR FICHA");
     printf("\n\t0 - SAIR");
     
     printf("\n\nEscolha: \n> ");
-    scanf("%d", &opcao);
-    getchar();
+    opcao = int_input(); 
 
     switch (opcao) {
-        case 1: 
-            system("clear");
-            printf("\n\t\tCRIAR FICHA\n");
-            criar_ficha();
+        case 1: // criacao da ficha 
+           criar_ficha();
+           break;
+
+        case 2: // exibicao da ficha
+            ler_ficha();
             break;
 
-        case 2: 
-            system("clear");
-            printf("\n\t\tEXIBIR FICHA\n");
-            break;
-
-        case 0:
+        case 0: // sair do programa
             system("clear");
             printf("\ntchauu !\n");
-            return;
+            exit(0);
+            break;
         
-        default:
-            printf("opção inválida! tente novamente...\n> ");
-            getchar();
-            getchar();
-            menu(opcao);
+        default: // pega opcao errada e retorna ao menu
+            printf("opção inválida!\n");
+            sleep(1);
+            menu();
+            
     }
 
 }
 
+// funcao para entrada de int
+int int_input() {
+    char entrada[MAX]; // recebe numero como char
+    int opcao; // recebe char convertido em int
+
+    fgets(entrada, MAX, stdin);
+    opcao = atoi(entrada);
+
+    // retorna int
+    return opcao;
+
+}
+
+// funcao de criar ficha
 void criar_ficha () { 
     // abertura do arquivo e dados para ficha
-    FILE *arquivo = fopen("ficha.txt", "w");
-    Dados dados = {0};
+    FILE *arquivo = fopen("ficha.txt", "w"); // arquivo da ficha
+    Dados dados = {0}; // estrutura com dados da ficha
     
+    // verifica abertura de arquivo
     if (arquivo == NULL) {
         printf("erro na abertura de arquivo");
         return;
     }
-
+    
+    // entrada de dados
+    system("clear");
+    printf("\n\t\tCRIAR FICHA\n");
     printf("\n\tJOGADOR: ");
     fgets(dados.jogador, MAX, stdin);
     printf("\n\tNOME: ");
     fgets(dados.nome, MAX, stdin);
     printf("\n\tIDADE: ");
-    scanf("%d", &dados.idade);
-    getchar();
+    dados.idade = int_input();
     printf("\n\tPROFISSÃO: ");
     fgets(dados.profissao, MAX, stdin);
     printf("\n\tLOCAL DE NASC.: ");
@@ -85,22 +106,17 @@ void criar_ficha () {
 	printf ("\nPERSONALIDADE - DESCREVA COMO O SEU PERSONAGEM É, FALE SOBRE SUAS CARACTERÍSTICAS E INFORMAÇÕES RELEVANTES!\n");
     fgets(dados.personalidade, MAX, stdin);
   	
+    // verifica se o usuario deseja uma espaco a mais para adicionar anotacoes
     printf ("\n\n\nDESEJA ADICIONAR MAIS INFORMAÇÕES?\n\nSIM - 1 \t NÃO - 2\n> "); 
 
-    int opcao = 0;
-    scanf("%d", &opcao);
-    getchar();
+    int opcao = int_input();
 
     if (opcao == 1){
         printf("\nANOTAÇÕES ADICIONAIS: ");
 		fgets(dados.anotacoes,MAX,stdin);
-        printf ("\n\nSUA FICHA ESTÁ PRONTA!! FECHE O PROGRAMA E ACESSE SEUS ARQUIVOS OU O APP BLOCO DE NOTAS PARA CONFERIR OS DADOS!! :D\n> ");
-        getchar();
-	} else {
-        printf ("\n\nSUA FICHA ESTÁ PRONTA!! FECHE O PROGRAMA E ACESSE SEUS ARQUIVOS OU O APP BLOCO DE NOTAS PARA CONFERIR OS DADOS!! :D\n> ");
-        getchar();
 	}
-
+        
+    // adicao das informacoes no arquivo
     fprintf(arquivo,"\n\t* * * * * * * * \n ");
     fprintf(arquivo,"\t*             * PLAYER: %s", dados.jogador);
     fprintf(arquivo,"\t*      o      * NOME: %s", dados.nome);  
@@ -109,14 +125,53 @@ void criar_ficha () {
     fprintf(arquivo,"\t*             * LOCAL DE NASC.: %s", dados.local_nasc);
     fprintf(arquivo,"\t* * * * * * * * ");
     fprintf(arquivo, "\n\n\tPERSONALIDADE: \n\t - %s", dados.personalidade);
+
+    // verifica se ha anotacoes adicionais
     if (opcao == 1){
         fprintf(arquivo,"\n\tANOTAÇÕES ADICIONAIS: \n\t - %s", dados.anotacoes);
     }
     
-    fclose(arquivo);
+    fclose(arquivo); // fecha arquivo
     
-    system("clear");
+    // volta para o menu
+    printf ("\n\nSUA FICHA ESTÁ PRONTA!! FECHE O PROGRAMA E ACESSE SEUS ARQUIVOS OU O APP BLOCO DE NOTAS PARA CONFERIR OS DADOS!! :D\n> ");    
+    getchar();
     menu();
+ 
+}
+
+// funcao para exbir a ficha para o usuario
+void ler_ficha () {
+
+    FILE *arquivo = fopen("ficha.txt", "r"); // arquivo a ser lido
+    char *linha = NULL; // guarda cada linha do arquivo
+    size_t tam = 0; // tamanho da linha 
+    ssize_t leitura; // recebe a funcao getline
+
+    // verifica a abertura do arquivo
+    if (arquivo == NULL) {
+        printf("ler_ficha - erro na abertura de arquivo");
+        return;
+    }
+    
+    // limpa a tela para exibir a ficha
+    system("clear");
+    printf("\n\t\tEXIBIR FICHA\n");
+
+    // usa funcao getline no arquivo
+    while ((leitura = getline(&linha, &tam, arquivo)) != -1) {\
+        // printa a linha que esta lida
+        printf("%s", linha);
+    }
+
+    free(linha); // libera variavel que estava recebendo linhas
+    fclose(arquivo); // fecha arquivo
+    
+    // volta para o menu
+    printf("\n\n> ");
+    getchar();
+    menu();
+
 }
 
 
@@ -126,7 +181,6 @@ int main () {
     setlocale(LC_ALL, "Portuguese");
     
     // menu de opcoes
-    system("clear");
     menu();
      
 }
