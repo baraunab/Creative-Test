@@ -2,9 +2,11 @@
 #include <stdlib.h>
 #include <locale.h>
 #include <unistd.h>
+#include "./include/ficha.h"
 
 // variaveis globais
 #define MAX 256
+/*
 
 // estruturas
 typedef struct {
@@ -30,9 +32,9 @@ void menu() {
    
     system("clear");
     int opcao;
-    /* * * * * * * * * * * * * * * *
+    // * * * * * * * * * * * * * * * *
      *  TITULO E VERSÃO DO PROJETO *
-     * * * * * * * * * * * * * * * */
+     * * * * * * * * * * * * * * * *
     printf("\n\t\tCREATIVE TEST V 1.2.0");
     printf("\n\t1 - CRIAR FICHA");
     printf("\n\t2 - EXIBIR FICHA");
@@ -174,7 +176,7 @@ void ler_ficha () {
 
 }
 
-
+*/
 // função principal
 int main () {
     // definindo linguagem pt-br
