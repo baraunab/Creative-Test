@@ -3,13 +3,12 @@
 #include <locale.h>
 #include <unistd.h>
 
-#include "ficha.h"
-
+#include "./include/ficha.h"
 
 // menu de opcao
 void menu() {
    
-    system("clear");
+    CLEAR();
     int opcao;
     /* * * * * * * * * * * * * * * *
      *  TITULO E VERSÃO DO PROJETO *
@@ -32,7 +31,7 @@ void menu() {
             break;
 
         case 0: // sair do programa
-            system("clear");
+            CLEAR();
             printf("\ntchauu !\n");
             exit(0);
             break;
@@ -72,7 +71,7 @@ void criar_ficha () {
     }
     
     // entrada de dados
-    system("clear");
+    CLEAR();
     printf("\n\t\tCRIAR FICHA\n");
     printf("\n\tJOGADOR: ");
     fgets(dados.jogador, MAX, stdin);
@@ -136,7 +135,7 @@ void ler_ficha () {
     }
     
     // limpa a tela para exibir a ficha
-    system("clear");
+    CLEAR();
     printf("\n\t\tEXIBIR FICHA\n");
 
     // usa funcao getline no arquivo

@@ -1,8 +1,21 @@
-#ifdef FICHA_C
-#define FICHA_C
+#ifndef FICHA_H
+#define FICHA_H
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <locale.h>
+#include <unistd.h>
 
 // variaveis globais
 #define MAX 256
+
+#ifdef __linux__
+#define CLEAR() system("clear")
+
+#else
+#define CLEAR() system("cls")
+
+#endif 
 
 // estruturas
 typedef struct {
@@ -21,4 +34,4 @@ int int_input(); // recebe input de int por meio de fgets e converte com atoi
 void criar_ficha(); // cria arquivo de ficha do personagem
 void ler_ficha(); // le o arquivo de ficha e mostra no terminal
 
-#endif
+#endif // FICHA_H
