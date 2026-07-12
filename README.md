@@ -16,8 +16,8 @@
 - Linux - GCC 14.2.0
 ``` bash
 $ git clone https://github.com/baraunab/Creative-Test.git
-$ gcc -o main creative-test-refactored.c
-$ ./main
+$ cd Creative-Test
+$ make && ./main
 ```
 
 ### Ficha de Personagem 🕴️
